@@ -1,40 +1,273 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h3>
+            SVG: Modes, Coordinates, Basic Shapes, Accessibility, Animations
+          </h3>
+        </section>
+        <section>
+          <h3>Scalable Vector Graphics (SVG)</h3>
+          <ul>
+            <li>XML-based markup language</li>
+            <li>defined in XML text files</li>
+            <li>open web standard for images (W3C, since 1999)</li>
+            <li>optimized to integrate with other web standards</li>
+            <li>
+              used a lot in web design for things like icons, logos, animations,
+              and interactive elements
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Modes</h3>
+          <p style="font-size: 24px">
+            High-level SVG features: declarative animation / references to
+            external resources / script execution / interaction
+          </p>
+          <table>
+            <tr style="font-size: 24px">
+              <td>dynamic interactive</td>
+              <td>dynamic interactive, with restrictions</td>
+              <td>secure animated</td>
+              <td>secure animated</td>
+            </tr>
+            <tr style="font-size: 24px">
+              <td>object without sandboxing</td>
+              <td>iframe with sandbox=""</td>
+              <td>img</td>
+              <td>CSS background</td>
+            </tr>
+            <tr style="font-size: 24px">
+              <td style="vertical-align: top">
+                <object
+                  type="image/svg+xml"
+                  data="images/smiley.svg"
+                  aria-label="smiley face, as an object"
+                  width="120"
+                  height="120"
+                >
+                  This browser does not support embedded SVG images.
+                </object>
+              </td>
+              <td style="vertical-align: top">
+                <iframe
+                  sandbox=""
+                  src="images/smiley.svg"
+                  width="120"
+                  height="120"
+                  style="border: 0"
+                  aria-label="smiley face, as an iframe"
+                  >This browser does not support embedded SVG images.</iframe
+                >
+              </td>
+              <td style="vertical-align: top">
+                <img
+                  width="120"
+                  height="120"
+                  id="js-embed-img"
+                  alt="smiley face, as an image"
+                  src="images/smiley.svg"
+                  style="margin: 0"
+                />
+              </td>
+              <td style="vertical-align: top">
+                <div
+                  style="
+                    background-image: url(./images/smiley.svg);
+                    width: 120px;
+                    height: 120px;
+                  "
+                  aria-label="smiley face, as a background image"
+                >
+                  &nbsp;
+                </div>
+              </td>
+            </tr>
+          </table>
+        </section>
+        <section>
+          <section>
+            <h3>Coordinates</h3>
+            <q>
+              All SVG content is drawn inside SVG viewports. Every SVG viewport
+              defines a drawing region characterized by size (width, height),
+              and an origin, measured in abstract user units. (W3C)
+            </q>
+          </section>
+          <section>
+            <h3>Initial SVG coordinate system</h3>
+            <pre><code data-trim>
+              <svg width="900" height="500" xmlns="http://www.w3.org/2000/svg">
+              </svg>
+          </code></pre>
+            <img data-src="images/viewport1_1.png" />
+          </section>
+          <section>
+            <h3>User SVG coordinate system</h3>
+            <pre><code data-trim>
+              <svg 
+              width="900" 
+              height="500" 
+              viewBox="220 125 450 250" 
+              xmlns="http://www.w3.org/2000/svg">
+              </svg>
+          </code></pre>
+            <p>viewBox= “min-x min-y width height”</p>
+          </section>
+          <section>
+            <h3>Initial SVG coordinate system & User SVG coordinate system</h3>
+            <pre><code data-trim>
+              <svg 
+              width="900" 
+              height="500" 
+              viewBox="220 125 450 250" 
+              xmlns="http://www.w3.org/2000/svg">
+              </svg>
+          </code></pre>
+            <img data-src="images/viewport2_1.png" />
+          </section>
+        </section>
+        <section>
+          <h3>Basic Shapes</h3>
+          <div style="display: flex">
+            <img
+              src="images/shapes.png"
+              style="object-fit: contain; align-self: flex-start"
+            />
+            <pre><code data-trim style="font-size: 20px;">
+            <svg width="200" height="250" version="1.1" xmlns="http://www.w3.org/2000/svg">
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+              <rect x="10" y="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/>
+              <rect x="60" y="10" rx="10" ry="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/>
+            
+              <circle cx="25" cy="75" r="20" stroke="red" fill="transparent" stroke-width="5"/>
+              <ellipse cx="75" cy="75" rx="20" ry="5" stroke="red" fill="transparent" stroke-width="5"/>
+            
+              <line x1="10" x2="50" y1="110" y2="150" stroke="orange" stroke-width="5"/>
+              <polyline points="60 110 65 120 70 115 75 130 80 125 85 140 90 135 95 150 100 145"
+                  stroke="orange" fill="transparent" stroke-width="5"/>
+            
+              <polygon points="50 160 55 180 70 180 60 190 65 205 50 195 35 205 40 190 30 180 45 180"
+                  stroke="green" fill="transparent" stroke-width="5"/>
+            
+              <path d="M20,230 Q40,205 50,230 T90,230" fill="none" stroke="blue" stroke-width="5"/>
+            </svg>
+          </code></pre>
+          </div>
+        </section>
+        <section>
+          <section>
+            <h3>Accessibility</h3>
+          </section>
+          <section>
+            <h3>The image tag</h3>
+            <pre><code data-trim>
+                <img src="hibiscus.svg" alt="Hibiscus blossom" width="200" role="img">
+              </code></pre>
+          </section>
+          <section>
+            <h3>The inline SVG</h3>
+            <pre><code data-trim>
+                  <svg
+                    aria-describedby="my-title my-descrip"
+                    role="img"
+                    viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="1.5"
+                  >
+                    <title id="my-title">Heart</title>
+                    <desc id="my-descrip">The shape of a red heart</desc>
+                    <path d="M50 (...) 8.585z" fill="#dc0000" stroke="#dc0000" />
+                  </svg>
+                </code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Animations</h3>
+            <ol>
+              <li>CSS animation</li>
+              <li>SMIL animation</li>
+            </ol>
+          </section>
+          <section>
+            <h3>CSS animation</h3>
+            <pre><code data-trim>
+              <svg>
+                <style>
+                  @keyframes change_fill {
+                    0% { fill: #49549E; }
+                    75% { fill: #1bceb1; }
+                    100% { fill: #1bce4f; }
+                  }
+                  .circle { animation: change_fill 1s; }
+                </style>
+                <!-- SVG elements -->
+            </svg>
+            </code></pre>
+          </section>
+          <section>
+            <h3>SMIL animation</h3>
+            <p></p>
+            <ol>
+              <li>animate / set / animateTransform / animateMotion</li>
+              <li>main tool - animate</li>
+            </ol>
+            <pre><code data-trim>
+              <circle r="25">
+                <animate
+                  attributeName="r"
+                  from="10"
+                  to="45"
+                  dur="2s"
+                  repeatCount="indefinite"/>
+              </circle>
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <p>Thank you for your attention</p>
+        </section>
+      </div>
+    </div>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
